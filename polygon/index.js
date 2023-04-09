@@ -9,26 +9,25 @@ var polygons = [
 
 ];
 
+let center = {
 
-var map = L.map('map').setView([4.6559819, -74.161334], 15);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+}
 
-L.marker([4.6559819, -74.161334]).addTo(map)
-    .bindPopup('Hola Mundo desde <b id="popup"> openstreetmap</b>')
-    .openPopup();
-
-   
-
-    
 let polyline  = null
 
-   
-map.addEventListener("click", (e) => {
-    extractLatLng(e.latlng)
-    renderPolyLine()
-})
+var map = null
+
+const renderMap = () => {
+     map = L.map('map').setView([center.lat, center.lng], 15);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    map.addEventListener("click", (e) => {
+        extractLatLng(e.latlng)
+        renderPolyLine(L)
+    })
+}
+
 
 
 
@@ -48,7 +47,6 @@ const renderPolyLine = () => {
 
         if (latlngs[0] && latlngs[0][0] == lat && latlngs[0][1] == lng) {
             console.info("match", {lat, lng});
-            alert("Acá se debe crear el poligono")
             let promp = prompt("Quieres crear el poligono ?", 1)
             if (promp == 1) {
                 extractLatLng({lat, lng})
@@ -83,6 +81,32 @@ const toRounded = (num) => {
 
 
 
+const funcionInit = () => {
+	if (!"geolocation" in navigator) {
+		return alert("Tu navegador no soporta el acceso a la ubicación. Intenta con otro");
+	}
 
+	const onUbicacionConcedida = ubicacion => {
+        center.lat = ubicacion.coords.latitude
+        center.lng = ubicacion.coords.longitude
+		// console.log("Tengo la ubicación: ", center);
+        renderMap()
+
+        
+	}
+  
+	const onErrorDeUbicacion = err => {
+		console.log("Error obteniendo ubicación: ", err);
+	}
+
+	const opcionesDeSolicitud = {
+		enableHighAccuracy: true, // Alta precisión
+		maximumAge: 0, // No queremos caché
+		timeout: 5000 // Esperar solo 5 segundos
+	};
+	// Solicitar
+	navigator.geolocation.getCurrentPosition(onUbicacionConcedida, onErrorDeUbicacion, opcionesDeSolicitud);
+
+};
 // Se utiliza cuando apenas se carga la página
-// renderPolyLine()
+funcionInit()
