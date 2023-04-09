@@ -1,4 +1,4 @@
 # leafletjs
 
 
-### creación de Polygnos, inspirado en Google earth
+### Ejemplos sobre la API de (leafletjs)
