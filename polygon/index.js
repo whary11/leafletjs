@@ -1,21 +1,8 @@
-var latlngs = [
-    // [4.656118, -74.161941],
-    // [4.659419, -74.157200],
-    // [4.656639, -74.153627],
-    // [4.652487, -74.159344]
-];
-
-var polygons = [
-
-];
-
-let center = {
-
-}
-
+let latlngs = [];
+let polygons = [];
+let center = {}
 let polyline  = null
-
-var map = null
+let map = null
 
 const renderMap = () => {
      map = L.map('map').setView([center.lat, center.lng], 15);
