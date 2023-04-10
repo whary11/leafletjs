@@ -39,9 +39,9 @@ const renderPolyLine = () => {
                 extractLatLng({lat, lng})
                 renderPolyLine()
                 let polygon = {
-                    name: "NOMBRE XXX - " + Math.random(1.1000),
+                    name: getNamePolygon(),
                     latlngs, 
-                    color: "red"
+                    color: getColorPolygon()
                 }
 
                 polygons.push(polygon)
@@ -97,3 +97,14 @@ const funcionInit = () => {
 };
 // Se utiliza cuando apenas se carga la página
 funcionInit()
+
+const getNamePolygon = () => {
+    let promp = prompt("Nombre del Poligono", "NOMBRE XXX - " + Math.random(1.1000))
+    return promp
+}
+
+
+const getColorPolygon = () => {
+    let promp = prompt("Color para el Poligono", "red")
+    return promp
+}
